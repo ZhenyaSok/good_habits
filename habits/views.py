@@ -31,6 +31,6 @@ class HabitUpdateApiView(generics.UpdateAPIView):
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
 
-class HabitDeleteApiView(generics.DestroyAPIView):
+class HabitDestroyApiView(generics.DestroyAPIView):
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
