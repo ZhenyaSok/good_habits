@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+DOMAIN_NAME = ['http://127.0.0.1:8000']
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_yasg',
     'rest_framework',
-    'django_filters',
+    # 'django_filters',
     'django_celery_beat',
 
     'users',
@@ -132,8 +132,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -153,7 +153,6 @@ SIMPLE_JWT = {
 }
 
 # Stripe
-
 STRIPE_PUBLIC_KEY = "pk_test_51OyWWrRoEJdjRqgtFY9ym6MlQ7orZEi3JNIuLlw9rw3PZdtPzk8CVx6qZxwVSGQDXg3IOjiIoIk18ztjKmeRa0jT00AyMX5JND"
 STRIPE_SECRET_KEY = "sk_test_51OyWWrRoEJdjRqgthkTSLe2rFhsdI4jG0k4rpWMkhZeDaD3M8kxvHSzRXVspkGmP0ObqVUmEddX7pvNjjq653w9700666KFI72"
 
@@ -176,13 +175,12 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BEAT_SCHEDULE = {'news_telegram': {'task': 'users.tasks.deactivate_user',
+CELERY_BEAT_SCHEDULE = {'news_telegram': {'task': 'habits.send_telegram',
                                         'schedule': timedelta(seconds=10),
                                         },
                          }
 
 # django-rest framework
-
 REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 'PAGE_SIZE': 3,
@@ -193,3 +191,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
 }
+
+# Настройки почты, для отправки
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
