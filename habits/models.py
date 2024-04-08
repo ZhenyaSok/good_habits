@@ -34,11 +34,9 @@ class Habit(models.Model):
     action = models.TextField(verbose_name="привычка - конкретное действие")
     sign_of_pleasant_habit = models.BooleanField(default=True, verbose_name="признак полезной привычки")
     related_habit = models.ForeignKey('self', on_delete=models.SET_NULL, verbose_name="связанная привычка", **NULLABLE)
-    # periodicity = models.DateField(default=datetime.datetime.today()+timedelta(days=1), verbose_name="периодичность")
-    # date_validity = models.DateField(default=get_default_date)
     periodicity = models.DecimalField(default=1, min=1, max=7, verbose_name='периодичность(в днях)')
     reward = models.CharField(max_length=150, verbose_name="вознаграждение", **NULLABLE)
-    time_to_complete = models.DurationField(verbose_name="время на выполнение", **NULLABLE)
+    time_to_complete = models.DurationField(verbose_name="время на выполнение", max=120, **NULLABLE)
     is_published = models.BooleanField(default=False, verbose_name='признак публикации')
 
     # def save(self, *args, **kwargs):

@@ -7,11 +7,10 @@ from habits.models import Habit
 """
 Валидаторы
 
+
 ???В связанные привычки могут попадать только привычки с признаком приятной привычки.
 У приятной привычки не может быть вознаграждения или связанной привычки.
-Нельзя выполнять привычку реже, чем 1 раз в 7 дней.
-Нельзя не выполнять привычку более 7 дней. Например, привычка 
-может повторяться раз в неделю, но не раз в 2 недели. За одну неделю необходимо выполнить привычку хотя бы один раз."""
+"""
 SCAM_URL = 'youtube.com'
 def valid_one_field_out_of_two(val):
     if val["related_habit"] and val["reward"]:
@@ -30,6 +29,14 @@ def limit_of_periodicity(val):
     if val["periodicity"] > 7:
         raise serializers.ValidationError(
             "Нельзя выполнять привычку реже, чем 1 раз в 7 дней.")
+
+
+def only_pleasant_in_related(val):
+    if val["pleasant_in_related"]:
+        val["related_habit"] == None and val["reward"] == None
+        raise serializers.ValidationError(
+            "У приятной привычки не может быть вознаграждения или связанной привычки")
+
 
 
 
