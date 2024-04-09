@@ -12,16 +12,18 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d%xq%2bys=0l@u7ym(@2*xidxh^_4%rr@q6(d!i-@u!e_@lur6'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,19 +82,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'good_habits',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -112,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -123,7 +122,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -141,7 +139,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#настройка для аутентификации пользователя
+# настройка для аутентификации пользователя
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -154,12 +152,11 @@ SIMPLE_JWT = {
 }
 
 # Stripe
-STRIPE_PUBLIC_KEY = "pk_test_51OyWWrRoEJdjRqgtFY9ym6MlQ7orZEi3JNIuLlw9rw3PZdtPzk8CVx6qZxwVSGQDXg3IOjiIoIk18ztjKmeRa0jT00AyMX5JND"
-STRIPE_SECRET_KEY = "sk_test_51OyWWrRoEJdjRqgthkTSLe2rFhsdI4jG0k4rpWMkhZeDaD3M8kxvHSzRXVspkGmP0ObqVUmEddX7pvNjjq653w9700666KFI72"
-
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0" # Например, Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"  # Например, Redis, который по умолчанию работает на порту 6379
 
 # URL-адрес брокера результатов, также Redis
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
@@ -176,10 +173,10 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BEAT_SCHEDULE = {'news_telegram': {'task': 'services.check_and_send',
-                                        'schedule': timedelta(seconds=10),
-                                        },
-                         }
+CELERY_BEAT_SCHEDULE = {'news_telegram': {'task': 'services.tasks.your_habits',
+                                          'schedule': timedelta(seconds=10),
+                                          },
+                        }
 
 # django-rest framework
 REST_FRAMEWORK = {
