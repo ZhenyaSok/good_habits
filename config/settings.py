@@ -175,7 +175,7 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_BEAT_SCHEDULE = {'news_telegram': {'task': 'habits.send_telegram',
+CELERY_BEAT_SCHEDULE = {'news_telegram': {'task': 'services.check_and_send',
                                         'schedule': timedelta(seconds=10),
                                         },
                          }
@@ -198,3 +198,6 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
+
+TELEGRAM_API_TOKEN = os.getenv('TELEGRAM_API_TOKEN')
+TELEGRAM_ID = os.getenv('TELEGRAM_ID')

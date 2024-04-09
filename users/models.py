@@ -12,11 +12,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=75, verbose_name='Фамилия', **NULLABLE)
     phone = models.CharField(max_length=35, verbose_name='номер телефона', **NULLABLE)
     avatar = models.ImageField(upload_to='users/', verbose_name='аватар', **NULLABLE)
-    city = models.CharField(max_length=50, verbose_name='город', **NULLABLE)
-    is_active = models.BooleanField(default=False, **NULLABLE)
-    last_login = models.DateTimeField(auto_now_add=True, verbose_name='время последнего посещения', **NULLABLE)
+    chat_id = models.CharField(unique=True, max_length=50, verbose_name="телеграмм", **NULLABLE)
 
-    email_verify = models.BooleanField(default=False, verbose_name='проверка почты')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
