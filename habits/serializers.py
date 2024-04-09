@@ -5,15 +5,15 @@ from habits.validators import valid_one_field_out_of_two, time_performance, plea
 
 
 class AdvisableHabitSerializer(serializers.ModelSerializer):
-    '''Полезная привычка'''
+    """Приятная привычка"""
 
     class Meta:
         model = Habit
         fields = ('id', 'owner', 'place', 'time', 'action', 'periodicity', 'time_to_complete',
-                  'is_published', 'related_habit')
+                  'is_published', 'sign_of_pleasant_habit')
 
 class HabitSerializer(serializers.ModelSerializer):
-    '''Привычка'''
+    """Привычка"""
 
 
     class Meta:
@@ -34,11 +34,11 @@ class HabitCreateSerializer(serializers.ModelSerializer):
         Дополнительная валидация для сериализатора
         """
         validators = [
-            # valid_one_field_out_of_two,
-            # time_performance
-            # pleasant_in_related,
+            valid_one_field_out_of_two,
+            time_performance,
+            pleasant_in_related,
             limit_of_periodicity,
-            # only_pleasant_in_related,
+            only_pleasant_in_related,
         ]
         # validators = [NiceHabitValidator(fields),
         #               IsNiceHabitValidator(fields='link_nice_habit'),

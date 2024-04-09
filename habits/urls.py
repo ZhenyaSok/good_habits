@@ -1,8 +1,9 @@
 from django.urls import path
+from rest_framework import routers
 
 from habits.apps import HabitsConfig
 from habits.views import HabitListAPIView, HabitCreateAPIView, HabitUpdateAPIView, HabitDestroyAPIView, \
-    HabitRetrieveAPIView, HabitAllListAPIView
+    HabitRetrieveAPIView, HabitAllListAPIView, HabitAdvisableViewSet
 
 app_name = HabitsConfig.name
 
@@ -15,3 +16,8 @@ urlpatterns = [
 
     path('list_all/', HabitAllListAPIView.as_view(), name='list_all'),
 ]
+
+router = routers.SimpleRouter()
+router.register(r'advisable', HabitAdvisableViewSet)
+
+urlpatterns += router.urls

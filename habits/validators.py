@@ -34,7 +34,7 @@ def limit_of_periodicity(val):
 
 
 def only_pleasant_in_related(val):
-    if val["pleasant_in_related"]:
+    if val["sign_of_pleasant_habit"]:
         if val['related_habit'] or val['reward']:
             # if val["pleasant_in_related"] and val["reward"] or val["pleasant_in_related"] and val["related_habit"]:
             raise serializers.ValidationError('У приятной привычки не может быть'

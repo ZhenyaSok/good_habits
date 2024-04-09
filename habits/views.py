@@ -1,8 +1,8 @@
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from habits.models import Habit
 from habits.pagination import PagePagination
-from habits.serializers import HabitSerializer, HabitCreateSerializer
+from habits.serializers import HabitSerializer, HabitCreateSerializer, AdvisableHabitSerializer
 from users.permissions import IsOwner
 
 
@@ -48,3 +48,24 @@ class HabitDestroyAPIView(generics.DestroyAPIView):
     """ Удаление привычки """
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
+
+
+class HabitAdvisableViewSet(viewsets.ModelViewSet):
+    """ViewSet для приятных привычек """
+    serializer_class = AdvisableHabitSerializer
+    queryset = Habit.objects.filter(sign_of_pleasant_habit=True)
+    permission_classes = [IsAuthenticated]
+
+
+    def get_permissions(self):
+        if self.action == 'CREATE':
+            self.permission_classes = [IsAuthenticated]
+        else:
+            self.permission_classes = [IsAuthenticated, IsOwner]
+
+        return super().get_permissions()
+
+    def perform_create(self, serializer):
+        new_habit = serializer.save()
+        new_habit.owner = self.request.user
+        new_habit.save()
