@@ -60,13 +60,6 @@ def your_habits():
 #             habit.save()
 
 
-
-
-
-
-
-
-
 # def check_and_send():
 #     bot_token = settings.TELEGRAM_API_TOKEN
 #     """
