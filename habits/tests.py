@@ -20,7 +20,7 @@ class HabitTestCase(APITestCase):
         """Тест просмотра списка своих привычек (list)"""
 
         response = self.client.get(reverse('habits:habit_list'))
-        self.assertEqual(self.serializer_data, response.data)
+        self.assertEqual(self.serializer_data, response.data.get('results'))
         self.assertEqual(
             response.status_code, status.HTTP_200_OK
         )
@@ -100,7 +100,7 @@ class HabitTestCase(APITestCase):
         """Тест просмотра списка всех опубликованных привычек (list)"""
 
         response = self.client.get(reverse('habits:list_all'))
-        self.assertEqual(self.serializer_data, response.data)
+        self.assertEqual(self.serializer_data, response.data.get('results'))
         self.assertEqual(
             response.status_code, status.HTTP_200_OK
         )
@@ -124,7 +124,7 @@ class ViewSetsTestCase(APITestCase):
                                           is_published=True)  # приятная привычка
         self.client.force_authenticate(user=self.user)
         self.serializer_data_all = AdvisableHabitSerializer([self.habit], many=True).data
-        print(self.serializer_data_all)
+
 
     def test_adv_list(self):
         """Тест на получение листа приятных привычек"""
