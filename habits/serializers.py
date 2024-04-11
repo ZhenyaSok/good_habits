@@ -25,8 +25,7 @@ class HabitCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        fields = ('id', 'owner', 'place', 'time', 'action', 'sign_of_pleasant_habit', 'related_habit',
-                  'periodicity', 'reward', 'time_to_complete', 'is_published')
+        fields = "__all__"
 
         """Валидация для сериализатора"""
         validators = [

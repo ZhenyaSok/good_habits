@@ -11,6 +11,7 @@ from rest_framework import serializers
 """
 
 def valid_one_field_out_of_two(val):
+
     if val["related_habit"] and val["reward"]:
         raise serializers.ValidationError("Вы можете выбрать ЛИБО связанную привычку ЛИБО вознаграждение, выберите что-то одно")
 
